@@ -149,6 +149,8 @@ def function_graphic(f: Callable[[float], float]) -> None:
 
     plt.plot(x, y)
     plt.grid()
+    plt.xlabel("x")
+    plt.ylabel("y")
     plt.savefig("function_graphic.png")
     plt.close()
     # plt.show()
@@ -165,7 +167,7 @@ def convergence_of_the_algorithm(iterations: list, title: str) -> None: #Гра�
     plt.plot(iter, x)
     plt.grid()
     plt.xlabel("iter")
-    plt.ylabel("x")
+    plt.ylabel("f(x)")
     plt.savefig(f"{title.replace(" ", "_")}.png")
     plt.close()
 

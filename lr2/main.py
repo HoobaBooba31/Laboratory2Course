@@ -62,7 +62,7 @@ def self_made_simpson(f: Callable[[float], float], bracket: tuple, h: int = 50) 
 
         iter += 1
 
-    return s * h / 3
+    return s * h_iter / 3
 
 
 def base_func_graph(f: Callable[[float], float]) -> None:
@@ -84,12 +84,12 @@ def creating_graphs_of_iterations(iterations: list[DataIntegrals], title: str = 
 
     for data in iterations:
         x.append(data.res)
-        iters.append(data.maxiter)
+        iters.append(data.h)
 
     plt.plot(iters, x)
     plt.grid()
-    plt.xlabel("iter")
-    plt.ylabel("x")
+    plt.xlabel("Кол-во разбиений")
+    plt.ylabel("Интеграл")
     plt.savefig(f"{title.replace(" ", "_")}.png")
     plt.close()
 
@@ -100,7 +100,7 @@ def creating_graphs_of_errors(iterations: list[DataIntegrals], analytic_value: f
 
     for iter in iterations:
         errors.append(abs(iter.res - analytic_value))
-        iters.append(iter.maxiter)
+        iters.append(iter.h)
 
     plt.plot(iters, errors)
     plt.grid()
