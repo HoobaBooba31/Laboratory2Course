@@ -8,8 +8,8 @@ from matplotlib import pyplot as plt
 
 class DataIntegrals:
 
-    def __init__(self, maxiter: int, res: float):
-        self.maxiter = maxiter
+    def __init__(self, h: int, res: float):
+        self.h = h
         self.res = res
 
 
@@ -17,9 +17,9 @@ def f(x: float) -> float:
     return np.sin(x) - 1/x
 
 
-def self_made_quad(f: Callable[[float], float], bracket: tuple, maxiter: int = 50) -> float:
+def self_made_quad(f: Callable[[float], float], bracket: tuple, h: int = 50) -> float:
     a, b = bracket
-    iter = (b - a) / maxiter 
+    iter = (b - a) / h 
     s = 0
 
     while a < b:
@@ -31,9 +31,9 @@ def self_made_quad(f: Callable[[float], float], bracket: tuple, maxiter: int = 5
     return s
 
 
-def self_made_trapezoid(f: Callable[[float], float], bracket: tuple, maxiter: int = 50) -> float:
+def self_made_trapezoid(f: Callable[[float], float], bracket: tuple, h: int = 50) -> float:
     a, b = bracket
-    iter = (b - a) / maxiter
+    iter = (b - a) / h
     s = 0
 
     while a < b:
@@ -43,14 +43,14 @@ def self_made_trapezoid(f: Callable[[float], float], bracket: tuple, maxiter: in
     return s
 
 
-def self_made_simpson(f: Callable[[float], float], bracket: tuple, maxiter: int = 50) -> float:
+def self_made_simpson(f: Callable[[float], float], bracket: tuple, h: int = 50) -> float:
     a, b = bracket
-    h = (b - a) / (2 * maxiter)
+    h_iter = (b - a) / (2 * h)
     s = f(a) + f(b)
     iter = 1
 
     while a < b:
-        a += h
+        a += h_iter
         if a >= b:
             break
 
@@ -128,25 +128,25 @@ if __name__ == "__main__":
     logging.info("[ЭТАП 1] РАССМАТРИВАЮТСЯ МЕТОДЫ ЧИСЛЕННОГО ИНТЕГРИРОВАНИЯ, ВЫПОЛНЕННЫЕ БРИГАДОЙ")
 
     for iter in iters:
-        data = DataIntegrals(maxiter=iter, res=self_made_quad(f, bracket, iter))
+        data = DataIntegrals(h=iter, res=self_made_quad(f, bracket, iter))
         quad_data.append(data)
 
-        data = DataIntegrals(maxiter=iter, res=self_made_trapezoid(f, bracket, iter))
+        data = DataIntegrals(h=iter, res=self_made_trapezoid(f, bracket, iter))
         trapezoid_data.append(data)
 
 
-        data = DataIntegrals(maxiter=iter, res=self_made_simpson(f, bracket, iter))
+        data = DataIntegrals(h=iter, res=self_made_simpson(f, bracket, iter))
         simpson_data.append(data)
 
 
     logging.info(f"""Метод прямоугольников(рассматривали метод правых прямоугольников):
-                    Кол-во делений: {quad_data[-1].maxiter};
+                    Кол-во делений: {quad_data[-1].h};
                     Интеграл: {quad_data[-1].res}.\n""")
     logging.info(f"""Метод трапеции:
-                    Кол-во делений: {trapezoid_data[-1].maxiter};
+                    Кол-во делений: {trapezoid_data[-1].h};
                     Интеграл: {trapezoid_data[-1].res}. \n""")
     logging.info(f"""Метод Симпсона:
-                    Кол-во делений: {simpson_data[-1].maxiter};
+                    Кол-во делений: {simpson_data[-1].h};
                     Интеграл: {simpson_data[-1].res}""")
 
 
